@@ -15300,7 +15300,8 @@ const offsetFromDate = new Date(2022, 0, 1);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffset = msOffset / 1000 / 60 / 60 / 24;
 // console.log(dayOffset);
-const targetWord = targetWords[Math.floor(dayOffset)];
+const targetWord = targetWords[Math.floor(dayOffset) + 12];
+let guessAux = "";
 
 startInteraction();
 
@@ -15380,13 +15381,22 @@ function submitGuess() {
     return;
   }
 
-  stopInteraction();
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] !== targetWord[i]) guessAux += targetWord[i];
+  }
+  console.log("guess: " + guess);
+  console.log("guess aux: " + guessAux);
+  //stopInteraction();
   activeTiles.forEach((...params) => flipTile(...params, guess));
 }
 
 function flipTile(tile, index, array, guess) {
   const letter = tile.dataset.letter;
   const key = keyboard.querySelector(`[data-key="${letter}"i]`); // The i at the end makes it case insensitive;
+  //-------------------------------------------------------Alegarap
+
+  //-------------------------------------------------------
+
   setTimeout(() => {
     tile.classList.add("flip");
   }, (index * FLIP_ANIMATION_DURATION) / 2);
@@ -15395,12 +15405,14 @@ function flipTile(tile, index, array, guess) {
     "transitionend",
     () => {
       tile.classList.remove("flip");
-      if (targetWord[index] == letter) {
+      if (guess[index] === targetWord[index]) {
         tile.dataset.state = "correct";
         key.classList.add("correct");
-      } else if (targetWord.includes(letter)) {
+      } else if (guessAux.includes(guess[index])) {
         tile.dataset.state = "wrong-location";
         key.classList.add("wrong-location");
+        guessAux = guessAux.replace(guess[index], "");
+        console.log(guessAux);
       } else {
         tile.dataset.state = "wrong";
         key.classList.add("wrong");
