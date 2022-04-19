@@ -1,2 +1,3 @@
 # wordle-improved
- A Wordle clone that will evolve to get more features and serve mainly educational & fun purposes.
+
+A Wordle clone that will evolve to get more features and serves mainly educational & fun purposes.
