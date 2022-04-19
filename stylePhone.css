@@ -1,0 +1,228 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  /* background: rgb(26, 164, 166);
+  background: linear-gradient(
+    0deg,
+    rgba(26, 164, 166, 1) 0%,
+    rgba(5, 86, 87, 1) 100%
+  ); */
+  background: rgb(140, 26, 166);
+  background: linear-gradient(
+    0deg,
+    rgba(140, 26, 166, 1) 0%,
+    rgba(34, 5, 87, 1) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  min-height: 93vh;
+  margin: 0;
+  padding: 1em;
+  font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
+}
+
+.keyboard {
+  display: grid;
+  /* grid-template-columns: repeat(20, minmax(auto, 1.75em)); */
+  grid-template-columns: repeat(20, minmax(1em, 2em));
+  grid-auto-rows: 6em;
+  gap: 0.25em;
+  justify-content: center;
+  padding-bottom: 10vh;
+}
+.key {
+  font-size: 1.5em;
+  font-weight: bold;
+  grid-column: span 2;
+  border: none;
+  padding: 0;
+  background:none
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--ligthness, 40%))
+  );
+  color: white;
+  fill: white;
+  text-transform: uppercase;
+  border-radius: 0.3em;
+  /* border: 0.06em solid black; */
+  cursor: pointer;
+  user-select: none;
+}
+
+.key.enter {
+  font-size: 1.5em;
+  --lightness-offset: -5%;
+  grid-column: span 3;
+}
+.key.delete {
+  font-size: 2.5em;
+  padding-bottom: 0.35em;
+  --lightness-offset: -5%;
+  grid-column: span 3;
+}
+
+.key:hover,
+.key:focus {
+  --lightness-offset: 10%;
+}
+.key.wrong {
+  --ligthness: 23%;
+}
+
+/* It is important to put these in order since the one that is below overrides the ones above, I think */
+.key.wrong-location {
+  --hue: 49;
+  --saturation: 51%;
+  --lightness: 47%;
+}
+
+.key.correct {
+  --hue: 115;
+  --saturation: 29%;
+  --lightness: 43%;
+}
+
+.guess-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  flex-grow: 1;
+  grid-template-columns: repeat(5, 8vh);
+  grid-template-rows: repeat(6, 8vh);
+  gap: 0.25em;
+  margin-bottom: 3vh;
+}
+
+.tile {
+  font-size: 3em;
+  /* background-color: rgba(209, 217, 232, 0.074); */
+  color: white;
+  border: 0.02em solid black;
+  border-radius: 0.15em;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transition: transform 250ms linear;
+  transition: transform 250ms linear;
+}
+
+.tile[data-state="active"] {
+  background-color: hsl(180, 1%, 65%);
+}
+.tile[data-state="wrong"] {
+  border: none;
+  background-color: hsl(240, 5%, 30%);
+}
+.tile[data-state="wrong-location"] {
+  border: none;
+  background-color: hsl(40, 50%, 50%);
+}
+.tile[data-state="correct"] {
+  border: none;
+  background-color: hsl(120, 50%, 50%);
+}
+
+.tile.shake {
+  animation: shake 300ms ease-in-out;
+}
+.tile.dance {
+  animation: dance 500ms ease-in-out;
+}
+
+.tile.flip {
+  transform: rotateX(90deg);
+}
+
+@keyframes shake {
+  10% {
+    transform: translateX(-5%);
+  }
+  30% {
+    transform: translateX(5%);
+  }
+  50% {
+    transform: translateX(-7.5%);
+  }
+  70% {
+    transform: translateX(7.5%);
+  }
+  90% {
+    transform: translateX(-5%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dance {
+  20% {
+    transform: translateY(-50%);
+  }
+  40% {
+    transform: translateY(5%);
+  }
+  60% {
+    transform: translateY(-25%);
+  }
+  80% {
+    transform: translateY(2.5%);
+  }
+  90% {
+    transform: translateY(-5%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.alert-container {
+  position: fixed;
+  top: 10vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alert {
+  font-size: 1.5em;
+  pointer-events: none;
+  background-color: hsl(204, 7%, 85%);
+  padding: 0.75em;
+  border-radius: 0.3em;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  margin-bottom: 0.5em;
+}
+.alert:last-child {
+  margin-bottom: 0;
+}
+.alert.hide {
+  opacity: 0;
+}
+.title {
+  color: white;
+  border-color: black;
+  font-weight: bolder;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  font-size: 2.5em;
+  padding-bottom: 4vh;
+  padding-top: 1vh;
+}
